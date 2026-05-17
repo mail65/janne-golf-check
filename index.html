@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Kann der Tobi golfen? 🏌️</title>
+  <style>
+    :root {
+      --green: #22c55e;
+      --red: #ef4444;
+      --yellow: #f59e0b;
+      --dark: #0f172a;
+      --card: #1e293b;
+      --card2: #263548;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --grass: #166534;
+      --grass-light: #15803d;
+      --accent: #86efac;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--dark);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(160deg, #0a2e14 0%, #0f4a1f 50%, #0d3d1a 100%);
+      padding: 32px 20px 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 60px;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,40 Q150,10 300,35 Q450,55 600,25 Q750,0 900,30 Q1050,55 1200,20 L1200,60 L0,60Z' fill='%230f172a'/%3E%3C/svg%3E") no-repeat bottom;
+      background-size: cover;
+    }
+
+    .flag-emoji {
+      font-size: 56px;
+      display: block;
+      animation: swing 2.5s ease-in-out infinite;
+      transform-origin: bottom center;
+    }
+
+    @keyframes swing {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+
+    .hero-title {
+      font-size: 28px;
+      font-weight: 900;
+      color: #fff;
+      margin-top: 12px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      line-height: 1.2;
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: var(--accent);
+      margin-top: 8px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    /* WEEK HIGHLIGHT */
+    .this-week {
+      margin: 20px 16px 0;
+      background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+      border-radius: 20px;
+      padding: 20px;
+      border: 2px solid #34d399;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .this-week::after {
+      content: '⛳';
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 48px;
+      opacity: 0.3;
+    }
+
+    .this-week-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #6ee7b7;
+      margin-bottom: 4px;
+    }
+
+    .this-week-date {
+      font-size: 22px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .this-week-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .big-status {
+      font-size: 32px;
+      font-weight: 900;
+      animation: pulse-green 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-green {
+      0%, 100% { text-shadow: 0 0 0px #22c55e; }
+      50% { text-shadow: 0 0 20px #22c55e, 0 0 40px #22c55e; }
+    }
+
+    .status-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .badge {
+      background: rgba(0,0,0,0.25);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .badge.good { color: #86efac; }
+    .badge.bad { color: #fca5a5; }
+
+    /* KINDER-O-METER */
+    .meter-section {
+      margin: 16px 16px 0;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+      padding-left: 4px;
+    }
+
+    .meter-card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .meter-icon {
+      font-size: 36px;
+      flex-shrink: 0;
+    }
+
+    .meter-content {
+      flex: 1;
+    }
+
+    .meter-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .meter-bar-bg {
+      background: #374151;
+      border-radius: 10px;
+      height: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .meter-bar-fill {
+      height: 100%;
+      border-radius: 10px;
+      transition: width 1.5s ease;
+      background: linear-gradient(90deg, #22c55e, #86efac);
+      width: 0%;
+    }
+
+    .meter-bar-fill.loaded {
+      width: 5%;
+    }
+
+    .meter-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* CALENDAR GRID */
+    .cal-section {
+      margin: 20px 16px 0;
+    }
+
+    .cal-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .cal-row {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.1s;
+      animation: slide-in 0.5s ease both;
+    }
+
+    .cal-row:active {
+      transform: scale(0.98);
+    }
+
+    .cal-row.highlight {
+      background: linear-gradient(135deg, #1a3a28 0%, #1e4530 100%);
+      border: 1.5px solid #34d399;
+    }
+
+    .cal-row.free::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: var(--green);
+      border-radius: 4px 0 0 4px;
+    }
+
+    .cal-row.busy::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: var(--red);
+      border-radius: 4px 0 0 4px;
+    }
+
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .cal-row:nth-child(1) { animation-delay: 0.05s; }
+    .cal-row:nth-child(2) { animation-delay: 0.10s; }
+    .cal-row:nth-child(3) { animation-delay: 0.15s; }
+    .cal-row:nth-child(4) { animation-delay: 0.20s; }
+    .cal-row:nth-child(5) { animation-delay: 0.25s; }
+    .cal-row:nth-child(6) { animation-delay: 0.30s; }
+    .cal-row:nth-child(7) { animation-delay: 0.35s; }
+    .cal-row:nth-child(8) { animation-delay: 0.40s; }
+    .cal-row:nth-child(9) { animation-delay: 0.45s; }
+
+    .cal-date {
+      min-width: 70px;
+    }
+
+    .cal-date-day {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .cal-date-month {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .cal-icons {
+      display: flex;
+      gap: 4px;
+      flex: 1;
+      flex-wrap: wrap;
+    }
+
+    .cal-icon-chip {
+      font-size: 18px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 3px 7px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .cal-icon-chip.kids-yes {
+      background: rgba(251, 113, 133, 0.2);
+    }
+
+    .cal-icon-chip.kids-no {
+      background: rgba(34, 197, 94, 0.15);
+    }
+
+    .chip-label {
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .cal-status {
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .cal-tag {
+      position: absolute;
+      right: 12px;
+      top: 10px;
+      background: #fef08a;
+      color: #713f12;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* LEGEND */
+    .legend {
+      margin: 20px 16px 0;
+      background: var(--card);
+      border-radius: 16px;
+      padding: 14px 16px;
+    }
+
+    .legend-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .legend-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* FOOTER */
+    .footer {
+      text-align: center;
+      margin-top: 28px;
+      padding: 0 20px;
+    }
+
+    .footer-bot {
+      font-size: 12px;
+      color: #475569;
+      margin-top: 6px;
+    }
+
+    .footer-main {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* SHARE BUTTON */
+    .share-btn {
+      display: block;
+      margin: 20px 16px 0;
+      background: linear-gradient(135deg, #1a56db 0%, #1d4ed8 100%);
+      color: white;
+      border: none;
+      border-radius: 16px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.1s, opacity 0.1s;
+      letter-spacing: 0.3px;
+    }
+
+    .share-btn:active {
+      transform: scale(0.97);
+      opacity: 0.9;
+    }
+
+    /* BOUNCE ANIMATION FOR GOLF BALL */
+    .bounce-ball {
+      display: inline-block;
+      animation: bounce 1.5s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* Dark mode — already dark by default */
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --dark: #0f172a;
+        --card: #1e293b;
+        --text: #f1f5f9;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="flag-emoji">🏌️</span>
+    <div class="hero-title">Kann der Tobi<br>Mittwochs golfen?</div>
+    <div class="hero-sub">Der offizielle Tobi-Verfügbarkeits-Checker™ für Janne ⛳</div>
+  </div>
+
+  <!-- THIS WEEK HIGHLIGHT -->
+  <div class="this-week">
+    <div class="this-week-label">⭐ Nächster Mittwoch</div>
+    <div class="this-week-date">Mi, 20. Mai 2026</div>
+    <div class="this-week-status">
+      <span class="big-status">🟢 FREI!</span>
+    </div>
+    <div class="status-badges">
+      <span class="badge good">✅ Kein Kinderdienst</span>
+      <span class="badge good">⛳ Golf frei</span>
+      <span class="badge good">🍺 Bier danach möglich</span>
+    </div>
+  </div>
+
+  <!-- KINDER-O-METER -->
+  <div class="meter-section">
+    <div class="section-title">🧒 Kinder-O-Meter™</div>
+    <div class="meter-card">
+      <div class="meter-icon">👨‍👧‍👦</div>
+      <div class="meter-content">
+        <div class="meter-title">Kinderbetreuungs-Belastung</div>
+        <div class="meter-bar-bg">
+          <div class="meter-bar-fill" id="kinder-bar"></div>
+        </div>
+        <div class="meter-label">
+          <span>😎 Frei wie ein Vogel</span>
+          <span>😫 Voller Vatermodus</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CALENDAR -->
+  <div class="cal-section">
+    <div class="section-title">📅 Alle Mittwoche im Überblick</div>
+    <div class="cal-grid" id="cal-grid">
+      <!-- injected by JS -->
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-title">Legende</div>
+    <div class="legend-grid">
+      <div class="legend-item">🟢 <span>Abend frei</span></div>
+      <div class="legend-item">🔴 <span>Nicht verfügbar</span></div>
+      <div class="legend-item">👨‍👧‍👦 <span>Hat Kinder</span></div>
+      <div class="legend-item">🧒‍♂️ <span>Keine Kinder</span></div>
+      <div class="legend-item">⛳ <span>Golf frei</span></div>
+      <div class="legend-item">🏌️ <span>Golf already booked</span></div>
+    </div>
+  </div>
+
+  <!-- SHARE -->
+  <button class="share-btn" onclick="share()">
+    📲 An Tobi schicken — "Bist du dabei?"
+  </button>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-main">Stand: 17.05.2026 — Live-Daten aus Tobis Kalender</div>
+    <div class="footer-bot">🤖 Felix hat das gebaut — weil Janne fragen konnte</div>
+  </div>
+
+  <script>
+    // Data
+    const wednesdays = [
+      { date: '20.05.2026', day: '20', month: 'Mai', hasKids: false, golfBooked: false, free: true, isNext: true },
+      { date: '27.05.2026', day: '27', month: 'Mai', hasKids: false, golfBooked: false, free: true, isNext: false },
+      { date: '03.06.2026', day: '03', month: 'Jun', hasKids: false, golfBooked: false, free: true, isNext: false },
+      { date: '10.06.2026', day: '10', month: 'Jun', hasKids: false, golfBooked: false, free: true, isNext: false },
+      { date: '17.06.2026', day: '17', month: 'Jun', hasKids: false, golfBooked: false, free: true, isNext: false },
+      { date: '24.06.2026', day: '24', month: 'Jun', hasKids: false, golfBooked: false, free: true, isNext: false },
+      { date: '01.07.2026', day: '01', month: 'Jul', hasKids: false, golfBooked: false, free: true, isNext: false },
+      { date: '08.07.2026', day: '08', month: 'Jul', hasKids: false, golfBooked: false, free: true, isNext: false },
+      { date: '15.07.2026', day: '15', month: 'Jul', hasKids: false, golfBooked: false, free: true, isNext: false },
+    ];
+
+    // Render calendar
+    const grid = document.getElementById('cal-grid');
+    wednesdays.forEach(w => {
+      const row = document.createElement('div');
+      row.className = `cal-row ${w.free ? 'free' : 'busy'} ${w.isNext ? 'highlight' : ''}`;
+
+      const kidsChip = w.hasKids
+        ? `<div class="cal-icon-chip kids-yes">👨‍👧‍👦 <span class="chip-label" style="color:#fca5a5">Kinder</span></div>`
+        : `<div class="cal-icon-chip kids-no">🧒‍♂️ <span class="chip-label" style="color:#86efac">Frei</span></div>`;
+
+      const golfChip = w.golfBooked
+        ? `<div class="cal-icon-chip">🏌️ <span class="chip-label" style="color:#fcd34d">Gebucht</span></div>`
+        : `<div class="cal-icon-chip">⛳ <span class="chip-label" style="color:#86efac">Offen</span></div>`;
+
+      const statusEmoji = w.free ? '🟢' : '🔴';
+      const nextTag = w.isNext ? '<span class="cal-tag">⭐ DIESE WOCHE</span>' : '';
+
+      row.innerHTML = `
+        <div class="cal-date">
+          <div class="cal-date-day">${w.day}.</div>
+          <div class="cal-date-month">${w.month} '26</div>
+        </div>
+        <div class="cal-icons">
+          ${kidsChip}
+          ${golfChip}
+        </div>
+        <div class="cal-status">${statusEmoji}</div>
+        ${nextTag}
+      `;
+      grid.appendChild(row);
+    });
+
+    // Animate Kinder-O-Meter bar (very low — no kids!)
+    setTimeout(() => {
+      const bar = document.getElementById('kinder-bar');
+      bar.classList.add('loaded');
+    }, 300);
+
+    // Share function
+    function share() {
+      const text = "Janne fragt: Kannst du Mittwoch golfen? 🏌️⛳\n👉 https://mail65.github.io/janne-golf-check/";
+      if (navigator.share) {
+        navigator.share({
+          title: "Kann der Tobi golfen?",
+          text: "Check mal schnell ob du Mittwochs kannst! ⛳",
+          url: "https://mail65.github.io/janne-golf-check/"
+        });
+      } else {
+        // Copy to clipboard
+        navigator.clipboard.writeText(text).then(() => {
+          const btn = document.querySelector('.share-btn');
+          const orig = btn.textContent;
+          btn.textContent = '✅ Link kopiert!';
+          setTimeout(() => btn.textContent = orig, 2000);
+        });
+      }
+    }
+  </script>
+
+</body>
+</html>
