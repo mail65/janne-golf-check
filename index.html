@@ -463,15 +463,9 @@
   <!-- THIS WEEK HIGHLIGHT -->
   <div class="this-week">
     <div class="this-week-label">⭐ Nächster Mittwoch</div>
-    <div class="this-week-date">Mi, 20. Mai 2026</div>
-    <div class="this-week-status">
-      <span class="big-status">🟢 FREI!</span>
-    </div>
-    <div class="status-badges">
-      <span class="badge good">✅ Kein Kinderdienst</span>
-      <span class="badge good">⛳ Golf frei</span>
-      <span class="badge good">🍺 Bier danach möglich</span>
-    </div>
+    <div class="this-week-date" id="next-date">Mi, 20. Mai 2026</div>
+    <div class="this-week-status" id="next-status"></div>
+    <div class="status-badges" id="next-badges"></div>
   </div>
 
   <!-- KINDER-O-METER -->
@@ -539,6 +533,20 @@
     ];
 
     // Render calendar
+    // Render hero card dynamically
+    const next = wednesdays.find(w => w.isNext);
+    if (next) {
+      document.getElementById('next-status').innerHTML =
+        next.free
+          ? '<span class="big-status">🟢 FREI!</span>'
+          : '<span class="big-status" style="color:#f87171">🔴 KEINE CHANCE</span>';
+      document.getElementById('next-badges').innerHTML = next.hasKids
+        ? '<span class="badge bad">👨‍👧‍👦 Kinder da</span><span class="badge bad">⛳ Anderes Mal</span>'
+        : (next.golfBooked
+            ? '<span class="badge bad">🏌️ Golf schon gebucht</span>'
+            : '<span class="badge good">✅ Kein Kinderdienst</span><span class="badge good">⛳ Golf frei</span><span class="badge good">🍺 Bier danach möglich</span>');
+    }
+
     const grid = document.getElementById('cal-grid');
     wednesdays.forEach(w => {
       const row = document.createElement('div');
